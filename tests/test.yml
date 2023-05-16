@@ -3,3 +3,16 @@
   remote_user: root
   roles:
     - letsencryptssl
+  tasks:
+    - name: Check if certificate exists
+      ansible.builtin.stat:
+        path: "/etc/letsencrypt/live/{{ domain }}/fullchain.pem"
+      register: cert_check
+    - name: Validate certificate generation
+      assert:
+        that:
+          - cert_check.stat.exists == true
+          - cert_check.stat.islnk == false
+          - cert_check.stat.size > 0
+        fail_msg: "Certificate generation failed."
+        success_msg: "Certificate generation succeeded."
