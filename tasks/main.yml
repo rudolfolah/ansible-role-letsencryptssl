@@ -6,18 +6,19 @@
     classic: true
 - name: Create symlink for Certbot binary
   tags: setup
-  ansible.builtin.command:
-    cmd: ln -s /snap/bin/certbot /usr/bin/certbot
-    creates: /usr/bin/certbot
+  ansible.builtin.file:
+    src: /snap/bin/certbot
+    dest: /usr/bin/certbot
+    state: link
   become: true
-- name: Check that the certificate was already generated
+- name: Check if the certificate was already generated
   tags: generate_cert
   ansible.builtin.stat:
-    path: /etc/letsencrypt/live/{{ domain }}/fullchain.pem
+    path: "/etc/letsencrypt/live/{{ domain }}/fullchain.pem"
   register: cert_fullchain_file
 - name: Generate certificate manually
   tags: generate_cert
   ansible.builtin.command:
-    cmd: certbot certonly --standalone --preferred-challenges http --agree-tos --email {{ email }} -d {{ domain }}
-    creates: /etc/letsencrypt/live/{{ domain }}/fullchain.pem
+    cmd: "certbot certonly --standalone --preferred-challenges http --agree-tos --email {{ email }} -d {{ domain }}"
+    creates: "/etc/letsencrypt/live/{{ domain }}/fullchain.pem"
   when: not cert_fullchain_file.stat.exists
