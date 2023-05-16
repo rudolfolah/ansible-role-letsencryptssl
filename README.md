@@ -3,6 +3,13 @@ letsencryptssl
 
 Ansible role for setting up certbot and creating a certificate for a domain.
 
+```mermaid
+graph LR
+A[Install certbot] -- setup --> B((Create symlink for Certbot binary))
+B -- generate_cert --> C(Check if the certificate was already generated)
+C -- generate_cert --> D(Generate certificate manually)
+```
+
 Requirements
 ------------
 
