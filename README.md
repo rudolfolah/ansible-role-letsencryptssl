@@ -1,12 +1,12 @@
 letsencryptssl
 =========
 
-Sets up certbot and creates a certificate for a domain.
+Ansible role for setting up certbot and creating a certificate for a domain.
 
 Requirements
 ------------
 
-The `snap` community role is required:
+To use this role, you need to install the `snap` community role. You can install it using the following command:
 
 ```shell
 ansible-galaxy collection install community.general
@@ -15,14 +15,15 @@ ansible-galaxy collection install community.general
 Role Variables
 --------------
 
-Parameters:
+The role uses the following parameters:
 
-- `email`: Email address to use for the certificate.
-- `domain`: Domain to create a certificate for.
-
+- `email`: The email address to use for the certificate.
+- `domain`: The domain for which the certificate should be created.
 
 Dependencies
 ------------
+
+This role depends on the following collections:
 
 - `community.general`
   - `community.general.snap`
@@ -30,18 +31,22 @@ Dependencies
 Example Playbook
 ----------------
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
+Here's an example playbook that shows how to use the role:
 
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
+```yaml
+- hosts: servers
+  roles:
+    - role: letsencryptssl
+      email: your_email@example.com
+      domain: example.com
+```
 
 License
 -------
 
-MIT
+This role is licensed under the MIT License.
 
 Author Information
 ------------------
 
-Rudolf Olah
+This role was created by Rudolf Olah.
